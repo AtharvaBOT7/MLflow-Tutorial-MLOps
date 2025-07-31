@@ -1,5 +1,7 @@
 environment.txt
 mlopsproj2
+mlruns
+mlartifacts
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
