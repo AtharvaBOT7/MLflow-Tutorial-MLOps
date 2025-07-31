@@ -2,6 +2,7 @@ environment.txt
 mlopsproj2
 mlruns
 mlartifacts
+connect_dagshub.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
