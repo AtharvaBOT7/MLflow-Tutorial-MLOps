@@ -6,11 +6,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
-import dagshub
 
-dagshub.init(repo_owner='atharvachundurwar841', repo_name='MLflow-Tutorial-MLOps', mlflow=True)
-
-mlflow.set_tracking_uri("https://dagshub.com/atharvachundurwar841/MLflow-Tutorial-MLOps.mlflow")
+# Setting the tracking URI for MLflow
+mlflow.set_tracking_uri("http://127.0.0.1:5000")  # Adjust the URI as
 
 wine = load_wine()
 X = wine.data
@@ -21,6 +19,9 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 max_depth = 15
 n_estimators = 20
 
+# Automatically log parameters, metrics, and models
+mlflow.autolog() 
+
 # Mention your experiment name 
 mlflow.set_experiment("Wine_Quality_Classification")
 
@@ -29,12 +30,7 @@ with mlflow.start_run():
     rf.fit(X_train, y_train)
     
     y_pred = rf.predict(X_test)
-    
     accuracy = accuracy_score(y_test, y_pred)
-    
-    mlflow.log_param("max_depth", max_depth)
-    mlflow.log_param("n_estimators", n_estimators)
-    mlflow.log_metric("accuracy", accuracy)
     
     # mlflow.sklearn.log_model(rf, "model")
 
@@ -49,7 +45,6 @@ with mlflow.start_run():
     plt.savefig("confusion_matrix.png")
 
     # Log artifacts using MLflow
-    mlflow.log_artifact("confusion_matrix.png")
     mlflow.log_artifact(__file__)
 
     # Log the tags
@@ -57,8 +52,5 @@ with mlflow.start_run():
         "Author": "Atharva",
         "Project": "Wine Quality Classification",
         "Model": "RandomForestClassifier",})
-    
-    # Log the model
-    # mlflow.sklearn.log_model(rf, artifact_path="model")
 
     print(f"Accuracy: {accuracy}")
