@@ -39,7 +39,7 @@ grid_search = GridSearchCV(estimator=rf, param_grid=param_grid, cv=5, n_jobs=-1,
 mlflow.set_experiment('breast-cancer-rf-hp')
 
 with mlflow.start_run() as parent:
-    grid_search.fit_transform(X_train, y_train)
+    grid_search.fit(X_train, y_train)
 
     # log all the child runs
     for i in range(len(grid_search.cv_results_['params'])):
